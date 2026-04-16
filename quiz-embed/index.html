@@ -87,8 +87,10 @@ html,body{margin:0;padding:0;background:transparent}
 .mc:hover{border-color:#22c55e;transform:translateX(6px);box-shadow:0 4px 20px rgba(34,197,94,.12)}
 .mc:hover::before{opacity:1}
 .mc:active{transform:translateX(3px) scale(.99)}
-.mn{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#1e293b 0%,#334155 100%);border:1px solid rgba(148,163,184,.15);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#e2e8f0;flex-shrink:0;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.05)}
+.mn{width:40px;height:40px;border-radius:12px;background:linear-gradient(145deg,#1e293b 0%,#334155 100%);border:1px solid rgba(148,163,184,.15);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#e2e8f0;flex-shrink:0;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:1;box-shadow:0 2px 8px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.05);margin-right:4px}
 .mc:hover .mn{background:linear-gradient(145deg,#22c55e 0%,#16a34a 100%);color:#fff;border-color:rgba(34,197,94,.4);box-shadow:0 0 16px rgba(34,197,94,.35),0 2px 8px rgba(0,0,0,.2);transform:scale(1.08)}
+.mdiv{width:1px;height:32px;background:linear-gradient(180deg,transparent,#334155 30%,#334155 70%,transparent);flex-shrink:0;margin:0 4px;transition:background .3s}
+.mc:hover .mdiv{background:linear-gradient(180deg,transparent,#22c55e 30%,#22c55e 70%,transparent)}
 .mt{font-size:14px;color:#e2e8f0;font-weight:600;line-height:1.5;position:relative;z-index:1}
 .mt2{font-size:11px;color:#64748b;font-weight:400;margin-top:2px}
 .mc:hover .mt{color:#fff}
@@ -161,7 +163,7 @@ if(allMode){
   var cats=['基礎概念','基礎概念','品質の構造','品質の構造','経営指標','組織論','管理手法','リスク管理','統計的管理','設備管理','現場管理','プロセス思考','人的要因','要因分析','問題解決','改善手法','標準化'];
   QD.titles.forEach(function(t,i){
     var d=document.createElement('div');d.className='mc';
-    d.innerHTML='<span class="mn">'+(i+1)+'</span><div><span class="mt">'+t+'</span><div class="mt2">'+cats[i]+'｜10問</div></div><span class="marr">→</span>';
+    d.innerHTML='<span class="mn">'+(i+1)+'</span><span class="mdiv"></span><div><span class="mt">'+t+'</span><div class="mt2">'+cats[i]+'｜10問</div></div><span class="marr">→</span>';
     d.onclick=function(){pickMod(i)};
     ml.appendChild(d);
   });
