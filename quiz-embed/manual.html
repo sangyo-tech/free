@@ -112,7 +112,7 @@ html,body{margin:0;padding:0;background:transparent}
   <div class="tt" id="tabs"></div>
   <div id="panelSelect" style="display:none">
     <div class="mhd">動画別 確認テスト<span class="mcnt">全15回</span></div>
-    <div class="msd">テストしたいモジュールを選んでください（各10問）</div>
+    <div class="msd">テストしたいモジュールを選んでください</div>
     <div class="ms" id="modList"></div>
   </div>
   <div id="panelVideo" style="display:none">
@@ -120,7 +120,7 @@ html,body{margin:0;padding:0;background:transparent}
       <h3 id="svTitle"></h3>
       <p>この動画の内容から出題されます。</p>
       <div class="sp">
-        <div><div class="sv">10</div><div class="sl">問題数</div></div>
+        <div><div class="sv" id="svCount">10</div><div class="sl">問題数</div></div>
         <div><div class="sv">解説付き</div><div class="sl">正誤判定</div></div>
       </div>
       <button class="B bg" onclick="go('video')">テストを始める →</button>
@@ -149,7 +149,7 @@ var P=new URLSearchParams(location.search);
 var modIdx=P.has('m')?parseInt(P.get('m')):null;
 var allMode=P.has('all');
 var showVideo=allMode||modIdx!==null;
-var showCourse=allMode||P.has('course');
+var showCourse=P.get('course')==='1'||modIdx===null||allMode;
 var mode=null;
 
 // Build tabs
@@ -158,10 +158,10 @@ if(allMode){
   tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'select\')">\ud83d\udcfa 動画別テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">\ud83d\udccb コース全体テスト</button>';
   // Build module list
   var ml=document.getElementById('modList');
-  var cats=["マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成", "マニュアル作成"];
+  var qc=[10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10];
   QD.titles.forEach(function(t,i){
     var d=document.createElement('div');d.className='mc';
-    d.innerHTML='<span class="mn">'+(i+1)+'</span><span class="mdiv"></span><div><span class="mt">'+t+'</span><div class="mt2">'+cats[i]+'\uff5c10問</div></div><span class="marr">→</span>';
+    d.innerHTML='<span class="mn">'+(i+1)+'</span><span class="mdiv"></span><div><span class="mt">'+t+'</span><div class="mt2">'+qc[i]+'問</div></div><span class="marr">→</span>';
     d.onclick=function(){pickMod(i)};
     ml.appendChild(d);
   });
@@ -175,6 +175,8 @@ if(allMode){
 // Init (non-all mode)
 if(!allMode&&showVideo){
   document.getElementById('svTitle').textContent=QD.titles[modIdx]+' 確認テスト';
+  var mc=QD.questions.filter(function(q){return q.m===modIdx}).length;
+  document.getElementById('svCount').textContent=mc;
   document.getElementById('panelVideo').style.display='block';
 }
 if(!allMode&&showCourse){
@@ -187,6 +189,8 @@ window.pickMod=function(idx){
   modIdx=idx;
   document.getElementById('panelSelect').style.display='none';
   document.getElementById('svTitle').textContent=QD.titles[idx]+' 確認テスト';
+  var mc=QD.questions.filter(function(q){return q.m===idx}).length;
+  document.getElementById('svCount').textContent=mc;
   document.getElementById('panelVideo').style.display='block';
   document.getElementById('startVideo').style.display='block';
   document.getElementById('qVideo').style.display='none';
@@ -222,9 +226,11 @@ window.go=function(m){
     for(var i=qz.qs.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=qz.qs[i];qz.qs[i]=qz.qs[j];qz.qs[j]=t}
   }else{
     var pool=[].concat(QD.questions),sel=[];
-    for(var mm=0;mm<15;mm++){var mq=pool.filter(function(q){return q.m===mm});sel.push(mq[Math.floor(Math.random()*mq.length)])}
+    var totalPool=pool.length,targetQ=Math.min(20,totalPool);
+    for(var mm=0;mm<15;mm++){var mq=pool.filter(function(q){return q.m===mm});if(mq.length>0)sel.push(mq[Math.floor(Math.random()*mq.length)])}
     var rem=pool.filter(function(q){return sel.indexOf(q)<0});
-    for(var i=0;i<5;i++){var p=rem.splice(Math.floor(Math.random()*rem.length),1)[0];if(p)sel.push(p)}
+    var extrasNeeded=targetQ-sel.length;
+    for(var i=0;i<extrasNeeded;i++){var p=rem.splice(Math.floor(Math.random()*rem.length),1)[0];if(p)sel.push(p)}
     for(var i=sel.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=sel[i];sel[i]=sel[j];sel[j]=t}
     qz.qs=sel;
   }
