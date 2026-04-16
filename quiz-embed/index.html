@@ -78,12 +78,29 @@ html,body{margin:0;padding:0;background:transparent}
 .rvc{font-size:12px;color:#22c55e;margin-bottom:6px}
 .rve{font-size:12px;color:#94a3b8;line-height:1.6}
 
+/* Module selector (all mode) */
+.ms{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:20px}
+.mc{background:#111827;border:1px solid #1e293b;border-radius:10px;padding:14px 16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:12px;text-align:left}
+.mc:hover{border-color:#22c55e;background:#0f1a12}
+.mn{width:28px;height:28px;border-radius:50%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#94a3b8;flex-shrink:0}
+.mc:hover .mn{background:#22c55e;color:#000}
+.mt{font-size:13px;color:#f1f5f9;font-weight:500;line-height:1.4}
+.mhd{font-size:16px;font-weight:700;color:#f1f5f9;margin-bottom:6px}
+.msd{font-size:13px;color:#94a3b8;margin-bottom:16px}
+.mbk{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;border:none;background:#1e293b;color:#94a3b8;cursor:pointer;margin-bottom:16px;transition:all .2s}
+.mbk:hover{background:#334155;color:#f1f5f9}
+
 @media(max-width:600px){.qt{font-size:14px}.o{padding:11px 13px;font-size:13px}.S{padding:24px 16px}}
 </style>
 </head>
 <body>
 <div id="R">
   <div class="tt" id="tabs"></div>
+  <div id="panelSelect" style="display:none">
+    <div class="mhd">📺 動画別 確認テスト</div>
+    <div class="msd">テストしたいモジュールを選んでください</div>
+    <div class="ms" id="modList"></div>
+  </div>
   <div id="panelVideo" style="display:none">
     <div class="S s-video" id="startVideo">
       <h3 id="svTitle"></h3>
@@ -118,29 +135,66 @@ const QUIZ_DATA = {"titles":["品質とは何か：お客様が決める「良�
 var QD=QUIZ_DATA,L=['A','B','C','D'];
 var P=new URLSearchParams(location.search);
 var modIdx=P.has('m')?parseInt(P.get('m')):null;
-var showCourse=P.get('course')==='1'||modIdx===null;
-var showVideo=modIdx!==null;
+var allMode=P.get('all')==='1';
+var showCourse=P.get('course')==='1'||modIdx===null||allMode;
+var showVideo=modIdx!==null&&!allMode;
 var mode=null; // current active mode
 
 // Build tabs
 var tabs=document.getElementById('tabs');
-if(showVideo&&showCourse){
+if(allMode){
+  tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'select\')">📺 動画別テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">📋 コース全体テスト</button>';
+  // Build module list
+  var ml=document.getElementById('modList');
+  QD.titles.forEach(function(t,i){
+    var d=document.createElement('div');d.className='mc';
+    d.innerHTML='<span class="mn">'+(i+1)+'</span><span class="mt">'+t+'</span>';
+    d.onclick=function(){pickMod(i)};
+    ml.appendChild(d);
+  });
+  document.getElementById('panelSelect').style.display='block';
+  document.getElementById('panelCourse').style.display='none';
+}else if(showVideo&&showCourse){
   tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'video\')">📺 この動画の確認テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">📋 コース全体テスト</button>';
 }else{tabs.style.display='none'}
 
-// Init
-if(showVideo){
+// Init (non-all mode)
+if(!allMode&&showVideo){
   document.getElementById('svTitle').textContent=QD.titles[modIdx]+' 確認テスト';
   document.getElementById('panelVideo').style.display='block';
 }
-if(showCourse){
+if(!allMode&&showCourse){
   document.getElementById('panelCourse').style.display=showVideo?'none':'block';
 }
-if(!showVideo&&showCourse)document.getElementById('panelCourse').style.display='block';
+if(!allMode&&!showVideo&&showCourse)document.getElementById('panelCourse').style.display='block';
+
+// All-mode: pick a module
+window.pickMod=function(idx){
+  modIdx=idx;
+  document.getElementById('panelSelect').style.display='none';
+  document.getElementById('svTitle').textContent=QD.titles[idx]+' 確認テスト';
+  document.getElementById('panelVideo').style.display='block';
+  document.getElementById('startVideo').style.display='block';
+  document.getElementById('qVideo').style.display='none';
+  document.getElementById('rVideo').style.display='none';
+};
 
 function switchTab(t){
-  document.querySelectorAll('.tb').forEach(function(b){b.classList.toggle('on',b.classList.contains('t-'+t))});
-  document.getElementById('panelVideo').style.display=t==='video'?'block':'none';
+  document.querySelectorAll('.tb').forEach(function(b){
+    var isMatch=(t==='select'&&b.classList.contains('t-video'))||b.classList.contains('t-'+t);
+    b.classList.toggle('on',isMatch);
+  });
+  var ps=document.getElementById('panelSelect');
+  if(t==='select'){
+    if(ps)ps.style.display='block';
+    document.getElementById('panelVideo').style.display='none';
+  }else if(t==='video'){
+    if(ps)ps.style.display='none';
+    document.getElementById('panelVideo').style.display='block';
+  }else{
+    if(ps)ps.style.display='none';
+    document.getElementById('panelVideo').style.display='none';
+  }
   document.getElementById('panelCourse').style.display=t==='course'?'block':'none';
 }
 
@@ -241,6 +295,23 @@ window.retry=function(m){
   g('r'+(m==='video'?'Video':'Course')).style.display='none';
   g('start'+(m==='video'?'Video':'Course')).style.display='block';
 };
+
+window.backToList=function(){
+  document.getElementById('panelVideo').style.display='none';
+  document.getElementById('panelSelect').style.display='block';
+  document.getElementById('startVideo').style.display='block';
+  document.getElementById('qVideo').style.display='none';
+  document.getElementById('rVideo').style.display='none';
+};
+
+// In all mode, add back button to video start panel
+if(allMode){
+  var sv=document.getElementById('startVideo');
+  var bk=document.createElement('button');
+  bk.className='mbk';bk.innerHTML='← モジュール一覧に戻る';
+  bk.onclick=backToList;
+  sv.insertBefore(bk,sv.firstChild);
+}
 </script>
 </body>
 </html>
