@@ -13,12 +13,12 @@ html,body{margin:0;padding:0;background:transparent}
 #R button{font-family:inherit;cursor:pointer}
 
 /* Tabs */
-.tt{display:flex;gap:8px;margin-bottom:28px;flex-wrap:wrap}
-.tb{padding:12px 24px;border-radius:10px;font-size:14px;font-weight:700;border:1px solid #1e293b;background:#111827;color:#94a3b8;transition:all .3s;letter-spacing:.02em}
-.tb:hover{border-color:#334155;color:#f1f5f9;transform:translateY(-1px)}
-.tb.on{border-color:transparent;color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.2)}
-.tb.t-video.on{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;box-shadow:0 4px 14px rgba(34,197,94,.25)}
-.tb.t-course.on{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;box-shadow:0 4px 14px rgba(245,158,11,.25)}
+.tt{display:flex;gap:0;margin-bottom:32px;background:#0f172a;border-radius:14px;padding:5px;border:1px solid #1e293b}
+.tb{flex:1;padding:14px 20px;border-radius:10px;font-size:15px;font-weight:700;border:none;background:transparent;color:#64748b;transition:all .3s;letter-spacing:.02em;text-align:center}
+.tb:hover:not(.on){color:#94a3b8;background:rgba(255,255,255,.03)}
+.tb.on{color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.tb.t-video.on{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;box-shadow:0 4px 16px rgba(34,197,94,.3)}
+.tb.t-course.on{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;box-shadow:0 4px 16px rgba(245,158,11,.3)}
 
 /* Start */
 .S{border-radius:14px;padding:32px 24px;text-align:center}
@@ -33,10 +33,12 @@ html,body{margin:0;padding:0;background:transparent}
 .sl{font-size:11px;color:#64748b}
 
 /* Buttons */
-.B{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:8px;font-size:15px;font-weight:700;border:none;transition:all .2s}
-.B:hover{transform:translateY(-2px)}
-.B.bg{background:linear-gradient(135deg,#22c55e,#4ade80);color:#000;box-shadow:0 4px 16px rgba(34,197,94,.2)}
-.B.bo{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;box-shadow:0 4px 16px rgba(245,158,11,.2)}
+.B{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:12px;font-size:16px;font-weight:700;border:none;transition:all .3s;position:relative;overflow:hidden}
+.B::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.B:hover{transform:translateY(-3px)}.B:hover::after{opacity:1}
+.B:active{transform:translateY(-1px)}
+.B.bg{background:linear-gradient(135deg,#22c55e,#4ade80);color:#000;box-shadow:0 6px 24px rgba(34,197,94,.3)}
+.B.bo{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;box-shadow:0 6px 24px rgba(245,158,11,.3)}
 
 /* Quiz */
 .Q{display:none}
@@ -164,6 +166,7 @@ if(allMode){
     ml.appendChild(d);
   });
   document.getElementById('panelSelect').style.display='block';
+  document.getElementById('panelVideo').style.display='none';
   document.getElementById('panelCourse').style.display='none';
 }else if(showVideo&&showCourse){
   tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'video\')">📺 この動画の確認テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">📋 コース全体テスト</button>';
@@ -323,6 +326,15 @@ if(allMode){
   bk.onclick=backToList;
   sv.insertBefore(bk,sv.firstChild);
 }
+
+// Auto-height: tell parent iframe to resize (no scrollbar)
+function reportHeight(){
+  var h=document.getElementById('R').scrollHeight+48;
+  window.parent.postMessage({qh:h},'*');
+}
+var ro=new ResizeObserver(reportHeight);
+ro.observe(document.getElementById('R'));
+setTimeout(reportHeight,300);
 </script>
 </body>
 </html>
