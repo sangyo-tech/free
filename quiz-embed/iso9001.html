@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>確認テスト | 産業技術アカデミー</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:transparent}
+#R{font-family:'Noto Sans JP',system-ui,sans-serif;color:#f1f5f9;line-height:1.7;max-width:800px;margin:0 auto;padding:24px 16px}
+#R *{box-sizing:border-box;margin:0;padding:0}
+#R button{font-family:inherit;cursor:pointer}
+
+/* Tabs */
+.tt{display:flex;gap:0;margin-bottom:32px;background:#0f172a;border-radius:14px;padding:5px;border:1px solid #1e293b}
+.tb{flex:1;padding:14px 20px;border-radius:10px;font-size:15px;font-weight:700;border:none;background:transparent;color:#64748b;transition:all .3s;letter-spacing:.02em;text-align:center}
+.tb:hover:not(.on){color:#94a3b8;background:rgba(255,255,255,.03)}
+.tb.on{color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.3)}
+.tb.t-video.on{background:linear-gradient(135deg,#22c55e,#16a34a);color:#000;box-shadow:0 4px 16px rgba(34,197,94,.3)}
+.tb.t-course.on{background:linear-gradient(135deg,#f59e0b,#d97706);color:#000;box-shadow:0 4px 16px rgba(245,158,11,.3)}
+
+/* Start */
+.S{border-radius:14px;padding:32px 24px;text-align:center}
+.S.s-video{background:linear-gradient(135deg,rgba(34,197,94,.05),rgba(34,197,94,.08));border:1px solid rgba(34,197,94,.2)}
+.S.s-course{background:linear-gradient(135deg,rgba(245,158,11,.05),rgba(245,158,11,.08));border:1px solid rgba(245,158,11,.2)}
+.S h3{font-size:18px;font-weight:700;margin-bottom:8px;color:#f1f5f9}
+.S p{color:#94a3b8;font-size:14px;margin-bottom:20px;line-height:1.8}
+.sp{display:flex;justify-content:center;gap:24px;margin-bottom:24px;flex-wrap:wrap}
+.sv{font-size:22px;font-weight:700}
+.s-video .sv{color:#22c55e}
+.s-course .sv{color:#f59e0b}
+.sl{font-size:11px;color:#64748b}
+
+/* Buttons */
+.B{display:inline-flex;align-items:center;gap:10px;padding:16px 36px;border-radius:12px;font-size:16px;font-weight:700;border:none;transition:all .3s;position:relative;overflow:hidden}
+.B::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.B:hover{transform:translateY(-3px)}.B:hover::after{opacity:1}
+.B:active{transform:translateY(-1px)}
+.B.bg{background:linear-gradient(135deg,#22c55e,#4ade80);color:#000;box-shadow:0 6px 24px rgba(34,197,94,.3)}
+.B.bo{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000;box-shadow:0 6px 24px rgba(245,158,11,.3)}
+
+/* Quiz */
+.Q{display:none}
+.pg{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.pgb{flex:1;height:6px;background:#1e293b;border-radius:3px;overflow:hidden}
+.pgf{height:100%;border-radius:3px;transition:width .3s}
+.pgf.c-video{background:#22c55e}.pgf.c-course{background:#f59e0b}
+.pgc{font-size:13px;color:#64748b;white-space:nowrap}
+.qm{font-size:12px;color:#06b6d4;margin-bottom:8px;font-weight:500}
+.qt{font-size:16px;font-weight:600;margin-bottom:18px;line-height:1.6;color:#f1f5f9}
+.hb{font-size:12px;color:#d4a017;background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);border-radius:6px;padding:4px 12px;margin-bottom:14px;display:inline-block}
+.hi{display:none;font-size:13px;color:#94a3b8;background:rgba(212,160,23,.05);border-left:3px solid #d4a017;padding:10px 14px;border-radius:6px;margin-bottom:14px}
+.os{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.o{background:#111827;border:2px solid #1e293b;border-radius:10px;padding:13px 16px;font-size:14px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:12px;text-align:left;color:#f1f5f9}
+.o:hover:not(.lk){border-color:#334155;background:#1a2332}
+.ol{width:26px;height:26px;border-radius:50%;background:#1e293b;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;color:#94a3b8}
+.o.ok{border-color:#22c55e;background:rgba(34,197,94,.08)}.o.ok .ol{background:#22c55e;color:#fff}
+.o.ng{border-color:#ef4444;background:rgba(239,68,68,.08)}.o.ng .ol{background:#ef4444;color:#fff}
+.ex{display:none;background:rgba(59,130,246,.06);border-left:3px solid #3b82f6;border-radius:6px;padding:12px 14px;margin-bottom:18px;font-size:13px;color:#94a3b8;line-height:1.7}
+.nx{display:none;border:none;border-radius:8px;padding:11px 28px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.nx:hover{transform:translateY(-2px)}
+.nx.c-video{background:linear-gradient(135deg,#22c55e,#4ade80);color:#000}
+.nx.c-course{background:linear-gradient(135deg,#f59e0b,#fbbf24);color:#000}
+
+/* Result */
+.Rs{display:none}
+.rc{border-radius:14px;padding:32px 24px;text-align:center;margin-bottom:24px}
+.rc.ps{background:linear-gradient(135deg,rgba(34,197,94,.04),rgba(34,197,94,.08));border:1px solid rgba(34,197,94,.2)}
+.rc.fl{background:linear-gradient(135deg,rgba(239,68,68,.04),rgba(239,68,68,.08));border:1px solid rgba(239,68,68,.2)}
+.rk{font-size:52px;font-weight:700;margin-bottom:6px}
+.rs{font-size:24px;font-weight:700;color:#f1f5f9;margin-bottom:4px}
+.rd{font-size:14px;color:#94a3b8;margin-bottom:14px}
+.rpm{font-size:15px;font-weight:600;color:#22c55e;margin-bottom:14px}
+.rfm{font-size:15px;font-weight:600;color:#ef4444;margin-bottom:14px}
+.rvt{font-size:16px;font-weight:700;margin-bottom:14px;color:#f59e0b}
+.rvi{background:#111827;border:1px solid #1e293b;border-radius:10px;padding:16px 18px;margin-bottom:10px;text-align:left}
+.rvq{font-size:13px;font-weight:600;margin-bottom:6px;color:#f1f5f9}
+.rvy{font-size:12px;color:#ef4444;margin-bottom:3px}
+.rvc{font-size:12px;color:#22c55e;margin-bottom:6px}
+.rve{font-size:12px;color:#94a3b8;line-height:1.6}
+
+/* Module selector (all mode) */
+.ms{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:20px}
+.mc{background:linear-gradient(135deg,#111827 0%,#0f172a 100%);border:1px solid #1e293b;border-radius:14px;padding:18px 20px;cursor:pointer;transition:all .3s cubic-bezier(.4,0,.2,1);display:flex;align-items:center;gap:16px;text-align:left;position:relative;overflow:hidden}
+.mc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(34,197,94,.06) 0%,rgba(34,197,94,.02) 100%);opacity:0;transition:opacity .3s}
+.mc:hover{border-color:#22c55e;transform:translateX(6px);box-shadow:0 4px 20px rgba(34,197,94,.12)}
+.mc:hover::before{opacity:1}
+.mc:active{transform:translateX(3px) scale(.99)}
+.mn{width:36px;display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;color:#22c55e;flex-shrink:0;transition:all .35s cubic-bezier(.4,0,.2,1);position:relative;z-index:1;background:none;border:none;box-shadow:none;margin-right:4px;text-shadow:0 0 12px rgba(34,197,94,.25)}
+.mc:hover .mn{color:#4ade80;text-shadow:0 0 20px rgba(34,197,94,.5);transform:scale(1.12)}
+.mdiv{width:1px;height:32px;background:linear-gradient(180deg,transparent,#334155 30%,#334155 70%,transparent);flex-shrink:0;margin:0 4px;transition:background .3s}
+.mc:hover .mdiv{background:linear-gradient(180deg,transparent,#22c55e 30%,#22c55e 70%,transparent)}
+.mt{font-size:14px;color:#e2e8f0;font-weight:600;line-height:1.5;position:relative;z-index:1}
+.mt2{font-size:11px;color:#64748b;font-weight:400;margin-top:2px}
+.mc:hover .mt{color:#fff}
+.mc:hover .mt2{color:#94a3b8}
+.marr{margin-left:auto;color:#334155;font-size:16px;transition:all .3s;position:relative;z-index:1}
+.mc:hover .marr{color:#22c55e;transform:translateX(3px)}
+.mhd{font-size:18px;font-weight:700;color:#f1f5f9;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.mhd::before{content:'';display:inline-block;width:4px;height:20px;border-radius:2px;background:linear-gradient(180deg,#22c55e,#4ade80)}
+.msd{font-size:13px;color:#94a3b8;margin-bottom:20px;padding-left:12px}
+.mbk{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid #1e293b;background:#111827;color:#94a3b8;cursor:pointer;margin-bottom:16px;transition:all .25s}
+.mbk:hover{background:#1e293b;color:#f1f5f9;border-color:#334155;transform:translateX(-3px)}
+.mcnt{display:inline-flex;align-items:center;justify-content:center;background:rgba(34,197,94,.1);color:#22c55e;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:8px}
+
+@media(max-width:600px){.qt{font-size:14px}.o{padding:11px 13px;font-size:13px}.S{padding:24px 16px}}
+</style>
+</head>
+<body>
+<div id="R">
+  <div class="tt" id="tabs"></div>
+  <div id="panelSelect" style="display:none">
+    <div class="mhd">動画別 確認テスト<span class="mcnt">全2回</span></div>
+    <div class="msd">テストしたいモジュールを選んでください（各10問）</div>
+    <div class="ms" id="modList"></div>
+  </div>
+  <div id="panelVideo" style="display:none">
+    <div class="S s-video" id="startVideo">
+      <h3 id="svTitle"></h3>
+      <p>この動画の内容から出題されます。</p>
+      <div class="sp">
+        <div><div class="sv">10</div><div class="sl">問題数</div></div>
+        <div><div class="sv">解説付き</div><div class="sl">正誤判定</div></div>
+      </div>
+      <button class="B bg" onclick="go('video')">テストを始める →</button>
+    </div>
+    <div class="Q" id="qVideo"></div>
+    <div class="Rs" id="rVideo"></div>
+  </div>
+  <div id="panelCourse" style="display:none">
+    <div class="S s-course" id="startCourse">
+      <h3>ISO9001 コース 確認テスト</h3>
+      <p>2モジュールの内容からランダムに20問出題されます。</p>
+      <div class="sp">
+        <div><div class="sv">20</div><div class="sl">問題数</div></div>
+        <div><div class="sv">80%</div><div class="sl">合格ライン</div></div>
+      </div>
+      <button class="B bo" onclick="go('course')">コーステストを始める →</button>
+    </div>
+    <div class="Q" id="qCourse"></div>
+    <div class="Rs" id="rCourse"></div>
+  </div>
+</div>
+<script>
+const QUIZ_DATA = {"titles":["要求事項4章：組織の状況と内部・外部の課題分析","要求事項4章：利害関係者のニーズ・期待の特定"],"questions":[{"m":0,"q":"特定した「内部・外部の課題」は、次にどのプロセスへ繋げる（インプットする）必要がありますか？","o":["1 リスク及び機会への取組み","1.5 監視機器の校正","5.1 製造の管理","1 改善の一般事項"],"h":"ヒントはありません","c":0,"e":"4.1で特定した課題は、6.1における「取り組むべきリスクと機会」の決定に直結します。"},{"m":1,"q":"特定した利害関係者の要求事項は、次にどのプロセスへの重要なインプットとなりますか？","o":["1 リスク及び機会への取組み","1.5 監視機器の校正","5.1 製造の管理","1 改善の一般事項"],"h":"ヒントはありません","c":0,"e":"利害関係者のニーズは、取り組むべきリスクと機会を特定するための重要な判断材料となります。"}]};
+var QD=QUIZ_DATA,L=['A','B','C','D'];
+var P=new URLSearchParams(location.search);
+var modIdx=P.has('m')?parseInt(P.get('m')):null;
+var allMode=P.has('all');
+var showVideo=allMode||modIdx!==null;
+var showCourse=allMode||P.has('course');
+var mode=null;
+
+// Build tabs
+var tabs=document.getElementById('tabs');
+if(allMode){
+  tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'select\')">\ud83d\udcfa 動画別テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">\ud83d\udccb コース全体テスト</button>';
+  // Build module list
+  var ml=document.getElementById('modList');
+  var cats=["ISO9001", "ISO9001"];
+  QD.titles.forEach(function(t,i){
+    var d=document.createElement('div');d.className='mc';
+    d.innerHTML='<span class="mn">'+(i+1)+'</span><span class="mdiv"></span><div><span class="mt">'+t+'</span><div class="mt2">'+cats[i]+'\uff5c10問</div></div><span class="marr">→</span>';
+    d.onclick=function(){pickMod(i)};
+    ml.appendChild(d);
+  });
+  document.getElementById('panelSelect').style.display='block';
+  document.getElementById('panelVideo').style.display='none';
+  document.getElementById('panelCourse').style.display='none';
+}else if(showVideo&&showCourse){
+  tabs.innerHTML='<button class="tb t-video on" onclick="switchTab(\'video\')">\ud83d\udcfa この動画の確認テスト</button><button class="tb t-course" onclick="switchTab(\'course\')">\ud83d\udccb コース全体テスト</button>';
+}else{tabs.style.display='none'}
+
+// Init (non-all mode)
+if(!allMode&&showVideo){
+  document.getElementById('svTitle').textContent=QD.titles[modIdx]+' 確認テスト';
+  document.getElementById('panelVideo').style.display='block';
+}
+if(!allMode&&showCourse){
+  document.getElementById('panelCourse').style.display=showVideo?'none':'block';
+}
+if(!allMode&&!showVideo&&showCourse)document.getElementById('panelCourse').style.display='block';
+
+// All-mode: pick a module
+window.pickMod=function(idx){
+  modIdx=idx;
+  document.getElementById('panelSelect').style.display='none';
+  document.getElementById('svTitle').textContent=QD.titles[idx]+' 確認テスト';
+  document.getElementById('panelVideo').style.display='block';
+  document.getElementById('startVideo').style.display='block';
+  document.getElementById('qVideo').style.display='none';
+  document.getElementById('rVideo').style.display='none';
+};
+
+function switchTab(t){
+  document.querySelectorAll('.tb').forEach(function(b){
+    var isMatch=(t==='select'&&b.classList.contains('t-video'))||b.classList.contains('t-'+t);
+    b.classList.toggle('on',isMatch);
+  });
+  var ps=document.getElementById('panelSelect');
+  if(t==='select'){
+    if(ps)ps.style.display='block';
+    document.getElementById('panelVideo').style.display='none';
+  }else if(t==='video'){
+    if(ps)ps.style.display='none';
+    document.getElementById('panelVideo').style.display='block';
+  }else{
+    if(ps)ps.style.display='none';
+    document.getElementById('panelVideo').style.display='none';
+  }
+  document.getElementById('panelCourse').style.display=t==='course'?'block':'none';
+}
+
+// Quiz engine
+var quizzes={video:{qs:[],ci:0,sc:0,ans:[]},course:{qs:[],ci:0,sc:0,ans:[]}};
+
+window.go=function(m){
+  mode=m;var qz=quizzes[m];qz.ci=0;qz.sc=0;qz.ans=[];
+  if(m==='video'){
+    qz.qs=QD.questions.filter(function(q){return q.m===modIdx});
+    for(var i=qz.qs.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=qz.qs[i];qz.qs[i]=qz.qs[j];qz.qs[j]=t}
+  }else{
+    var pool=[].concat(QD.questions),sel=[];
+    for(var mm=0;mm<2;mm++){var mq=pool.filter(function(q){return q.m===mm});sel.push(mq[Math.floor(Math.random()*mq.length)])}
+    var rem=pool.filter(function(q){return sel.indexOf(q)<0});
+    for(var i=0;i<18;i++){var p=rem.splice(Math.floor(Math.random()*rem.length),1)[0];if(p)sel.push(p)}
+    for(var i=sel.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=sel[i];sel[i]=sel[j];sel[j]=t}
+    qz.qs=sel;
+  }
+  g('start'+(m==='video'?'Video':'Course')).style.display='none';
+  g('r'+(m==='video'?'Video':'Course')).style.display='none';
+  var qEl=g('q'+(m==='video'?'Video':'Course'));
+  qEl.style.display='block';
+  showQ(m);qEl.scrollIntoView({behavior:'smooth'});
+};
+
+function g(id){return document.getElementById(id)}
+
+function showQ(m){
+  var qz=quizzes[m],q=qz.qs[qz.ci],total=qz.qs.length;
+  var cls=m==='video'?'c-video':'c-course';
+  var qEl=g('q'+(m==='video'?'Video':'Course'));
+  qEl.innerHTML='<div class="pg"><div class="pgb"><div class="pgf '+cls+'" style="width:'+((qz.ci/total)*100)+'%"></div></div><div class="pgc">'+(qz.ci+1)+' / '+total+'</div></div>'
+    +'<div class="qm">\ud83d\udcd8 '+QD.titles[q.m]+'</div>'
+    +'<div class="qt">'+q.q+'</div>'
+    +(q.h?'<button class="hb" onclick="tH(\''+m+'\')">\ud83d\udca1 ヒントを見る</button><div class="hi" id="hi_'+m+'">'+q.h+'</div>':'')
+    +'<div class="os" id="os_'+m+'"></div>'
+    +'<div class="ex" id="ex_'+m+'"></div>'
+    +'<button class="nx '+cls+'" id="nx_'+m+'" onclick="nxt(\''+m+'\')">'+(qz.ci<total-1?'次の問題へ →':'結果を見る →')+'</button>';
+  var os=g('os_'+m);
+  q.o.forEach(function(opt,i){
+    var d=document.createElement('div');d.className='o';
+    d.innerHTML='<span class="ol">'+L[i]+'</span><span>'+opt+'</span>';
+    d.onclick=function(){sel(m,i)};os.appendChild(d);
+  });
+}
+
+window.sel=function(m,idx){
+  var qz=quizzes[m],q=qz.qs[qz.ci];
+  var opts=g('os_'+m).querySelectorAll('.o');
+  if(opts[0].classList.contains('lk'))return;
+  opts.forEach(function(o){o.classList.add('lk')});
+  var ok=idx===q.c;if(ok)qz.sc++;
+  qz.ans.push({q:q,sel:idx,ok:ok});
+  opts[q.c].classList.add('ok');
+  if(!ok)opts[idx].classList.add('ng');
+  var e=g('ex_'+m);e.textContent=(ok?'\u2705 正解！ ':'\u274c 不正解… ')+q.e;e.style.display='block';
+  g('nx_'+m).style.display='inline-block';
+};
+
+window.tH=function(m){var h=g('hi_'+m);h.style.display=h.style.display==='none'?'block':'none'};
+
+window.nxt=function(m){
+  var qz=quizzes[m];qz.ci++;
+  if(qz.ci<qz.qs.length){showQ(m);g('q'+(m==='video'?'Video':'Course')).scrollIntoView({behavior:'smooth'})}
+  else showResult(m);
+};
+
+function showResult(m){
+  var qz=quizzes[m];
+  g('q'+(m==='video'?'Video':'Course')).style.display='none';
+  var rEl=g('r'+(m==='video'?'Video':'Course'));rEl.style.display='block';
+  var pct=Math.round(qz.sc/qz.qs.length*100),pass=m==='video'?pct>=70:pct>=80;
+  var rank,rc;
+  if(pct>=95){rank='S';rc='#d4a017'}else if(pct>=85){rank='A';rc='#22c55e'}else if(pct>=75){rank='B';rc='#3b82f6'}else if(pct>=60){rank='C';rc='#f59e0b'}else{rank='D';rc='#ef4444'}
+  var wrongs=qz.ans.filter(function(a){return!a.ok});
+  var h='<div class="rc '+(pass?'ps':'fl')+'">'
+    +'<div class="rk" style="color:'+rc+'">'+rank+'</div>'
+    +'<div class="rs">'+pct+'%</div>'
+    +'<div class="rd">'+qz.qs.length+'問中 '+qz.sc+'問正解</div>'
+    +(pass?'<div class="rpm">\ud83c\udf89 '+(m==='video'?'よくできました！':'合格おめでとうございます！')+'</div>':'<div class="rfm">'+(m==='video'?'もう一度動画を見て再挑戦してみましょう。':'合格基準（80%）に届きませんでした。動画を復習して再挑戦してみましょう。')+'</div>')
+    +'<button class="B '+(m==='video'?'bg':'bo')+'" onclick="retry(\''+m+'\')" style="margin-top:10px">もう一度受ける</button></div>';
+  if(wrongs.length>0){
+    h+='<div class="rvt">間違えた問題の復習</div>';
+    wrongs.forEach(function(w){
+      h+='<div class="rvi"><div class="qm" style="margin-bottom:4px">\ud83d\udcd8 '+QD.titles[w.q.m]+'</div>'
+        +'<div class="rvq">'+w.q.q+'</div>'
+        +'<div class="rvy">\u2717 あなたの回答：'+L[w.sel]+'. '+w.q.o[w.sel]+'</div>'
+        +'<div class="rvc">\u25cb 正解：'+L[w.q.c]+'. '+w.q.o[w.q.c]+'</div>'
+        +'<div class="rve">\ud83d\udca1 '+w.q.e+'</div></div>';
+    });
+  }else{h+='<div style="text-align:center;color:#22c55e;font-weight:700;font-size:16px;padding:16px">\ud83c\udf8a 全問正解です！</div>'}
+  rEl.innerHTML=h;
+  rEl.scrollIntoView({behavior:'smooth'});
+}
+
+window.retry=function(m){
+  g('r'+(m==='video'?'Video':'Course')).style.display='none';
+  g('start'+(m==='video'?'Video':'Course')).style.display='block';
+};
+
+window.backToList=function(){
+  document.getElementById('panelVideo').style.display='none';
+  document.getElementById('panelSelect').style.display='block';
+  document.getElementById('startVideo').style.display='block';
+  document.getElementById('qVideo').style.display='none';
+  document.getElementById('rVideo').style.display='none';
+};
+
+// In all mode, add back button to video start panel
+if(allMode){
+  var sv=document.getElementById('startVideo');
+  var bk=document.createElement('button');
+  bk.className='mbk';bk.innerHTML='\u2190 モジュール一覧に戻る';
+  bk.onclick=backToList;
+  sv.insertBefore(bk,sv.firstChild);
+}
+
+// Auto-height: tell parent iframe to resize (no scrollbar)
+function reportHeight(){
+  var h=document.getElementById('R').scrollHeight+48;
+  window.parent.postMessage({qh:h},'*');
+}
+var ro=new ResizeObserver(reportHeight);
+ro.observe(document.getElementById('R'));
+setTimeout(reportHeight,300);
+</script>
+</body>
+</html>
