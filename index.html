@@ -91,7 +91,7 @@ button{font-family:inherit}
 .q-hint-btn{font-size:12px;color:var(--gold);background:rgba(212,160,23,.1);border:1px solid rgba(212,160,23,.3);border-radius:6px;padding:4px 12px;cursor:pointer;margin-bottom:16px;display:inline-block}
 .q-hint{display:none;font-size:13px;color:var(--text2);background:rgba(212,160,23,.05);border-left:3px solid var(--gold);padding:10px 14px;border-radius:6px;margin-bottom:16px}
 .q-opts{display:flex;flex-direction:column;gap:10px;margin-bottom:20px}
-.q-opt{background:var(--bg-card);border:2px solid var(--border);border-radius:10px;padding:14px 18px;font-size:15px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:12px;text-align:left}
+.q-opt{background:var(--bg-card);border:2px solid rgba(255,255,255,0.15);border-radius:10px;padding:14px 18px;font-size:15px;cursor:pointer;transition:all .15s;display:flex;align-items:flex-start;gap:12px;text-align:left}
 .q-opt:hover:not(.locked){border-color:var(--border2);background:var(--bg-card-hover)}
 .q-opt .opt-label{width:28px;height:28px;border-radius:50%;background:var(--bg-accent);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;color:var(--text2)}
 .q-opt.correct{border-color:var(--green);background:rgba(34,197,94,.08)}
@@ -205,11 +205,13 @@ footer a{color:var(--gold)}
     /* mod-tabs非表示 */
     #modTabs { display: none; }
     /* カードバランス調整 */
-    .upgrade-card:last-child:nth-child(3n+1) { grid-column: 1/-1; }
+    .upgrade-card:last-child:nth-child(3n+1) { grid-column: 1/-1; margin-bottom: 0; }
     /* iframeスクロールバー対策 */
     .video-wrap iframe { display: block; }
 
     #videoFrame{width:100%;height:100%;}
+
+    .up-panel.active { padding-bottom: 8px; }
 </style>
 </head>
 <body>
@@ -327,7 +329,7 @@ footer a{color:var(--gold)}
 
   <div style="border-top:1px solid #1e3050;padding-top:40px;margin-top:0">
     <p style="font-size:13px;color:#aac4e0;margin-bottom:6px">このコースが気に入ったら</p>
-    <h3 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:16px">全17本＋専門コース、まとめて受講できます</h3>
+    <h3 style="font-size:20px;font-weight:700;color:#fff;margin-bottom:16px">体系的な教育体系を今すぐ使う😊</h3>
     <a href="https://apply.sangyo-tech.jp/" class="btn btn-orange" style="display:inline-block;padding:16px 40px;background:#f5a623;color:#000;border-radius:8px;font-weight:800;font-size:17px;text-decoration:none">申し込む →</a>
   </div>
 </div>
